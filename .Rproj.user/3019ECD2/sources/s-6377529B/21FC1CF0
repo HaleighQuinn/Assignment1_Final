@@ -1,0 +1,32 @@
+{
+    "id": "21FC1CF0",
+    "path": null,
+    "project_path": null,
+    "type": "r_dataframe",
+    "hash": "0",
+    "contents": "",
+    "dirty": false,
+    "created": 1601080139962.0,
+    "source_on_save": false,
+    "relative_order": 6,
+    "properties": {
+        "expression": "bay_counties",
+        "caption": "bay_counties",
+        "totalObservations": "9",
+        "displayedObservations": "9",
+        "variables": "10",
+        "cacheKey": "A8687435",
+        "object": "bay_counties",
+        "environment": "",
+        "contentUrl": "grid_resource/gridviewer.html?env=&obj=bay_counties&cache_key=A8687435&max_cols=50",
+        "preview": "0"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 7378422449748713509,
+    "encoding": "",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1601080139962,
+    "read_only": false,
+    "read_only_alternatives": []
+}

@@ -1,0 +1,32 @@
+{
+    "id": "51A2018E",
+    "path": null,
+    "project_path": null,
+    "type": "r_dataframe",
+    "hash": "0",
+    "contents": "",
+    "dirty": false,
+    "created": 1601080148474.0,
+    "source_on_save": false,
+    "relative_order": 7,
+    "properties": {
+        "expression": "bay_zips",
+        "caption": "bay_zips",
+        "totalObservations": "297",
+        "displayedObservations": "297",
+        "variables": "6",
+        "cacheKey": "73072B39",
+        "object": "bay_zips",
+        "environment": "",
+        "contentUrl": "grid_resource/gridviewer.html?env=&obj=bay_zips&cache_key=73072B39&max_cols=50",
+        "preview": "0"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 2828280844024,
+    "encoding": "",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1601080148474,
+    "read_only": false,
+    "read_only_alternatives": []
+}

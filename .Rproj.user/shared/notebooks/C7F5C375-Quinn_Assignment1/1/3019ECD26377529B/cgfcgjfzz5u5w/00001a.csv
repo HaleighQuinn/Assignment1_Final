@@ -1,0 +1,11 @@
+"0","pge_res_com %>% 
+  group_by(MONTH, YEAR) %>% 
+  mutate(
+    ZIPCODE = ZIPCODE %>% as.character()
+  ) %>% 
+  summarize( 
+    TOTALKBTU = sum(TOTALKBTU, na.rm = T)
+    )
+"
+"2","`summarise()` regrouping output by 'MONTH' (override with `.groups` argument)
+"

@@ -1,0 +1,189 @@
+---
+title: "Assignment 1 Submission"
+author: "Haleigh Quinn"
+date: "`r format(Sys.Date(), '%B %d, %Y')`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+
+# Reading & Filtering the Data
+```{r}
+library(tidyverse)
+
+years <- 2017:2020
+quarters <- 1:4
+types <- c("Electric", "Gas")
+
+pge_elec_gas <- NULL
+
+for (quarter in quarters){
+  for (year in years){
+    for (type in types){
+       if ((quarter %in% 3:4) & (year %in% 2020)){
+        next 
+       }
+      
+      filename <- 
+        paste0(
+          "PGE_",
+          year, 
+          "_Q", 
+          quarter,
+          "_",
+          type,
+          "UsageByZip.csv"
+        )
+     
+      print(filename)
+      
+      
+      temp <- read_csv(filename)
+      
+      if(type %in% "Gas"){
+        print(temp)
+        temp <- temp %>% 
+          mutate(TOTALKBTU = 100 * TOTALTHM) %>% 
+          select(-TOTALTHM, -AVERAGETHM)
+      } else {
+        temp <- temp %>% 
+        mutate(TOTALKBTU = 3.412 * TOTALKWH) %>% 
+          select(-TOTALKWH, -AVERAGEKWH)
+      }
+      
+      pge_elec_gas <- rbind(pge_elec_gas, temp)
+
+    }
+  }
+}
+
+pge_res_com <- 
+  filter(
+    pge_elec_gas, 
+    CUSTOMERCLASS %in%
+      c(
+        "Elec- Residential ", 
+        "Gas- Residential",
+        "Elec- Commercial",
+        "Gas- Commercial"
+      )
+  )
+
+```
+
+
+# Filtering only Zip Codes in the Bay Area : 
+```{r}
+library(tidyverse)
+library(sf)
+library(tigris)
+library(leaflet)
+library (dplyr)
+
+
+ca_counties <- counties("CA", cb = T, progress_bar = F)
+
+st_crs(ca_counties)
+
+projection <- "+proj=utm +zone=10 +ellps=GRS80 +datum=NAD83 +units=ft +no_defs"
+
+ca_counties_transformed <- 
+  ca_counties %>% 
+  st_transform(4326) %>% 
+  st_transform(26910) %>% 
+  st_transform(projection) %>% 
+  st_transform(st_crs(ca_counties))
+
+usa_zips <- 
+  zctas(cb = T, progress_bar = F)
+
+bay_county_names <-
+  c(
+    "Alameda",
+    "Contra Costa",
+    "Marin",
+    "Napa",
+    "San Francisco",
+    "San Mateo",
+    "Santa Clara",
+    "Solano",
+    "Sonoma"
+  )
+
+bay_cbgs <- 
+  bay_county_names %>% 
+  map_dfr(function(county) {
+    block_groups("CA", county, cb = T, progress_bar = F)
+  })
+
+bay_counties <-
+  ca_counties %>%
+  filter(NAME %in% bay_county_names)
+
+
+bay_zips <-
+  usa_zips %>% 
+  st_centroid() %>% 
+  .[bay_counties, ] %>% 
+  st_set_geometry(NULL) %>% 
+  left_join(usa_zips %>% select(GEOID10)) %>% 
+  st_as_sf()
+
+colnames(pge_elec_gas)
+
+
+pge_rc_bayzips <- pge_elec_gas %>% 
+  filter(CUSTOMERCLASS %in% c("Gas- Residential", "Elec- Residential", "Gas- Commercial", "Elec- Commercial")) %>% 
+  mutate(
+      ZIPCODE = ZIPCODE %>% as.character()
+    ) %>% 
+    group_by("MONTH") %>% 
+  summarize(
+    TOTALKBTU = sum(TOTALKBTU, na.rm = T)
+  ) %>% 
+right_join(
+  bay_zips, pge_rc_bayzips %>% select(GEOID10),
+  by = c("G" = "ZIPCODE")
+) %>% 
+st_as_sf() %>% 
+st_transform(4326)     
+     
+ 
+pge_res_com %>% 
+  group_by(MONTH, YEAR) %>% 
+  mutate(
+    ZIPCODE = ZIPCODE %>% as.character()
+  ) %>% 
+  summarize( 
+    TOTALKBTU = sum(TOTALKBTU, na.rm = T)
+    ) %>% 
+  
+
+
+
+  
+```
+

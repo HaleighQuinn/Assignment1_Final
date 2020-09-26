@@ -1,0 +1,74 @@
+"0","pge_elec_gas <- NULL
+
+for (quarter in quarters){
+  for (year in years){
+    for (type in types){
+       if ((quarter %in% 3:4) & (year %in% 2020)){
+        next 
+       }
+      
+      filename <- 
+        paste0(
+          ""PGE_"",
+          year, 
+          ""_Q"", 
+          quarter,
+          ""_"",
+          type,
+          ""UsageByZip.csv""
+        )
+     
+      print(filename)
+      
+      
+      temp <- read_csv(filename)
+      
+      if(type %in% ""Gas""){
+        print(temp)
+        temp <- temp %>% 
+          mutate(TOTALKBTU = 100 * TOTALTHM) %>% 
+          select(-TOTALTHM, -AVERAGETHM)
+      } else {
+        temp <- temp %>% 
+        mutate(TOTALKBTU = 3.412 * TOTALKWH) %>% 
+          select(-TOTALKWH, -AVERAGEKWH)
+      }
+      
+      pge_elec_gas <- rbind(pge_elec_gas, temp)
+
+    }
+  }
+}
+"
+"1","[1]"
+"1"," ""PGE_2017_Q1_ElectricUsageByZip.csv"""
+"1","
+"
+"2","Parsed with column specification:
+cols(
+  ZIPCODE = [32mcol_double()[39m,
+  MONTH = [32mcol_double()[39m,
+  YEAR = [32mcol_double()[39m,
+  CUSTOMERCLASS = [31mcol_character()[39m,
+  COMBINED = [31mcol_character()[39m,
+  TOTALCUSTOMERS = [32mcol_number()[39m,
+  TOTALKWH = [32mcol_number()[39m,
+  AVERAGEKWH = [32mcol_number()[39m
+)
+"
+"1","[1]"
+"1"," ""PGE_2017_Q1_GasUsageByZip.csv"""
+"1","
+"
+"2","Parsed with column specification:
+cols(
+  ZIPCODE = [32mcol_double()[39m,
+  MONTH = [32mcol_double()[39m,
+  YEAR = [32mcol_double()[39m,
+  CUSTOMERCLASS = [31mcol_character()[39m,
+  COMBINED = [31mcol_character()[39m,
+  TOTALCUSTOMERS = [32mcol_number()[39m,
+  TOTALTHM = [32mcol_number()[39m,
+  AVERAGETHM = [32mcol_number()[39m
+)
+"
