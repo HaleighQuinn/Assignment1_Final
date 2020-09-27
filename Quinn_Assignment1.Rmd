@@ -180,7 +180,7 @@ class(pge_rc_bayzips$ZIPCODE)
   
 
 ```
-#Creating New Date Column: 
+# Creating New Date Column: 
 ```{r}
 library(date)
 library(zoo)
@@ -188,8 +188,55 @@ library(dplyr)
 
 pge_rc_bayzips$Date <- as.yearmon(paste(pge_rc_bayzips$YEAR, pge_rc_bayzips$MONTH), "%Y %m")
 
-    
-  
+pge_bayzips_date <- pge_rc_bayzips %>% 
+  mutate(
+    DATE= case_when(
+  Date == "Jan 2017" ~ 1,
+  Date == "Feb 2017" ~ 2,
+  Date == "Mar 2017" ~ 3,
+  Date == "Apr 2017" ~ 4,
+  Date == "May 2017" ~ 5,
+  Date == "Jun 2017" ~ 6,
+  Date == "Jul 2017" ~ 7,
+  Date == "Aug 2017" ~ 8,
+  Date == "Sep 2017" ~ 9,
+  Date == "Oct 2017" ~ 10,
+  Date == "Nov 2017" ~ 11,
+  Date == "Dec 2017" ~ 12,
+  Date == "Jan 2018" ~ 13,
+  Date == "Feb 2018" ~ 14,
+  Date == "Mar 2018" ~ 15,
+  Date == "Apr 2018" ~ 16,
+  Date == "May 2018" ~ 17,
+  Date == "Jun 2018" ~ 18,
+  Date == "Jul 2018" ~ 19,
+  Date == "Aug 2018" ~ 20,
+  Date == "Sep 2018" ~ 21,
+  Date == "Oct 2018" ~ 22,
+  Date == "Nov 2018" ~ 23,
+  Date == "Dec 2018" ~ 24,
+  Date == "Jan 2019" ~ 25,
+  Date == "Feb 2019" ~ 26,
+  Date == "Mar 2019" ~ 27,
+  Date == "Apr 2019" ~ 28,
+  Date == "May 2019" ~ 29,
+  Date == "Jun 2019" ~ 30,
+  Date == "Jul 2019" ~ 31,
+  Date == "Aug 2019" ~ 32,
+  Date == "Sep 2019" ~ 33,
+  Date == "Oct 2019" ~ 34,
+  Date == "Nov 2019" ~ 35,
+  Date == "Dec 2019" ~ 36,
+  Date == "Jan 2020" ~ 37,
+  Date == "Feb 2020" ~ 38,
+  Date == "Mar 2020" ~ 39,
+  Date == "Apr 2020" ~ 40,
+  Date == "May 2020" ~ 41,
+  Date == "Jun 2020" ~ 42,
+  TRUE ~ NA_real_
+    )
+)  
+ 
 ```
 
 
@@ -198,11 +245,11 @@ pge_rc_bayzips$Date <- as.yearmon(paste(pge_rc_bayzips$YEAR, pge_rc_bayzips$MONT
 library(tidyverse)
 library(plotly)
 pge_bay_chart <-
-  pge_rc_bayzips %>% 
+  pge_bayzips_date %>% 
   ggplot() +
   geom_bar(
     aes(
-      x = Date %>% factor(),
+      x = DATE %>% factor(),
       y = TOTALKBTU,
       fill = CUSTOMERCLASS
     ),
@@ -214,16 +261,50 @@ pge_bay_chart <-
     y = "KBTU",
     title = "9 Bay Area Counties Monthly Electric & Gas Usage, 2017-2020",
     fill = "Energy Type"
+    
   )
 
-pge_bay_chart
-
+pge_bay_chart +
+  theme(axis.text.x = element_text(angle=90, vjust=0.5, hjust=1)) 
+  
+ 
 pge_bay_chart %>% 
   ggplotly() %>% 
   layout(
     xaxis = list(fixedrange = T),
     yaxis = list(fixedrange = T)
   ) %>% 
-  config(displayModeBar = F)
+  config(displayModeBar = F) 
+
 ```
+
+
+
+# Creating a Map: 
+```{r}
+library(tidyverse)
+library(sf)
+library(tigris)
+library(leaflet)
+library (dplyr)
+
+pge_prepost_covid <-
+  pge_rc_bayzips %>% 
+  filter(CUSTOMERCLASS == "Elec- Residential", YEAR %in% 2019:2020, MONTH %in% 1:6) %>% 
+  pivot_wider(
+    names_from = YEAR, 
+    values_from = TOTALKBTU
+  ) %>% 
+  rename(
+    KBTU2019 = "2019", KBTU2020 = "2020"
+  )
+
+
+
+
+ 
+```
+
+
+
 

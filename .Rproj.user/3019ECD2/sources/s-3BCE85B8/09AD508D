@@ -1,0 +1,32 @@
+{
+    "id": "09AD508D",
+    "path": null,
+    "project_path": null,
+    "type": "r_dataframe",
+    "hash": "0",
+    "contents": "",
+    "dirty": false,
+    "created": 1601240019471.0,
+    "source_on_save": false,
+    "relative_order": 8,
+    "properties": {
+        "expression": "pge_res_com",
+        "caption": "pge_res_com",
+        "totalObservations": 85659,
+        "displayedObservations": 85659,
+        "variables": 7,
+        "cacheKey": "D19960AB",
+        "object": "pge_res_com",
+        "environment": "",
+        "contentUrl": "grid_resource/gridviewer.html?env=&obj=pge_res_com&cache_key=D19960AB&max_cols=50",
+        "preview": 0
+    },
+    "folds": "",
+    "lastKnownWriteTime": 1601239509,
+    "encoding": "",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1601240019471,
+    "read_only": false,
+    "read_only_alternatives": []
+}

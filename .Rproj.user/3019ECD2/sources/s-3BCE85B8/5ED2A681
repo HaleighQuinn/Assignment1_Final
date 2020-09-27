@@ -1,0 +1,24 @@
+{
+    "id": "5ED2A681",
+    "path": "~/GitHub/Chapter1_Assignment1/Assignment1_Rmdfile.Rmd",
+    "project_path": null,
+    "type": "r_markdown",
+    "hash": "0",
+    "contents": "",
+    "dirty": false,
+    "created": 1600793362815.0,
+    "source_on_save": false,
+    "relative_order": 3,
+    "properties": {
+        "cursorPosition": "305,25",
+        "scrollLine": "0"
+    },
+    "folds": "7|27|9|0|\n11|13|20|0|\n21|18|31|0|\n32|28|39|17|\n34|6|38|0|\n40|35|41|51|\n42|27|44|18|\n45|17|48|37|\n49|21|51|0|\n52|44|58|2|\n59|33|62|0|\n63|13|108|17|\n68|6|70|0|\n109|33|128|2|\n110|6|112|0|\n129|48|170|3|\n171|43|198|2|\n199|57|215|0|\n216|53|240|2|\n241|35|277|0|\n",
+    "lastKnownWriteTime": 1600833945,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1601185854945,
+    "read_only": false,
+    "read_only_alternatives": []
+}

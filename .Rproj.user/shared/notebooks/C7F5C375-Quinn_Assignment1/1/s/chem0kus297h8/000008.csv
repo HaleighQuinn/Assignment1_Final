@@ -1,0 +1,13 @@
+"0","pge_prepost_covid <-
+  pge_rc_bayzips %>% 
+  filter(CUSTOMERCLASS == ""Elec- Residential"", YEAR %in% 2019:2020, MONTH %in% 1:6) %>% 
+  pivot_wider(
+    names_from = YEAR, 
+    values_from = TOTALKBTU
+  ) %>% 
+  rename(
+    KBTU2019 = ""2019"", KBTU2020 = ""2020""
+  )
+"
+"2","Error: variable names are limited to 10000 bytes
+"
