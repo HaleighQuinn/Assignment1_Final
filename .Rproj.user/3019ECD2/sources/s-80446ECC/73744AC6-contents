@@ -261,17 +261,22 @@ pge_bay_chart <-
     y = "KBTU",
     title = "9 Bay Area Counties Monthly Electric & Gas Usage, 2017-2020",
     fill = "Energy Type"
+    
   )
 
-axis(1, at = NULL, labels = TRUE)
-pge_bay_chart
-
+pge_bay_chart +
+  theme(axis.text.x = element_text(angle=90, vjust=0.5, hjust=1)) 
+  
+ 
 pge_bay_chart %>% 
   ggplotly() %>% 
   layout(
     xaxis = list(fixedrange = T),
     yaxis = list(fixedrange = T)
   ) %>% 
-  config(displayModeBar = F)
+  config(displayModeBar = F) 
+
 ```
+
+
 
