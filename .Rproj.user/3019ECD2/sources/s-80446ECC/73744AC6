@@ -1,0 +1,26 @@
+{
+    "id": "73744AC6",
+    "path": "~/GitHub/Assignment1_Final/Quinn_Assignment1.Rmd",
+    "project_path": "Quinn_Assignment1.Rmd",
+    "type": "r_markdown",
+    "hash": "0",
+    "contents": "",
+    "dirty": true,
+    "created": 1600793297929.0,
+    "source_on_save": false,
+    "relative_order": 1,
+    "properties": {
+        "tempName": "Untitled1",
+        "cursorPosition": "265,32",
+        "scrollLine": "183",
+        "last_setup_crc32": "80446ECCbb338d19"
+    },
+    "folds": "11|13|20|0|\n21|18|30|0|\n25|27|27|0|\n32|30|98|0|\n99|45|181|3|\n182|27|241|0|\n",
+    "lastKnownWriteTime": 1601186709,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1601225875601,
+    "read_only": false,
+    "read_only_alternatives": []
+}

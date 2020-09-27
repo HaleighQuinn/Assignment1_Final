@@ -37,7 +37,7 @@ library(tidyverse)
 years <- 2017:2020
 quarters <- 1:4
 types <- c("Electric", "Gas")
-
+months <- 1:42
 pge_elec_gas <- NULL
 
 for (quarter in quarters){
@@ -92,6 +92,8 @@ pge_res_com <-
       )
   )
 
+
+
 ```
 
 
@@ -103,11 +105,6 @@ library(tigris)
 library(leaflet)
 library (dplyr)
 
-bay_cbgs <- 
-  bay_county_names %>% 
-  map_dfr(function(county) {
-    block_groups("CA", county, cb = T, progress_bar = F)
-  })
 
 ca_counties <- counties("CA", cb = T, progress_bar = F)
 
@@ -138,6 +135,12 @@ bay_county_names <-
     "Sonoma"
   )
 
+bay_cbgs <- 
+  bay_county_names %>% 
+  map_dfr(function(county) {
+    block_groups("CA", county, cb = T, progress_bar = F)
+  })
+
 bay_counties <-
   ca_counties %>%
   filter(NAME %in% bay_county_names)
@@ -151,32 +154,76 @@ bay_zips <-
   left_join(usa_zips %>% select(GEOID10)) %>% 
   st_as_sf()
 
- 
-pge_rc_bayzips <- pge_elec_gas %>% 
-  filter(CUSTOMERCLASS %in% c("Gas- Residential", "Elec- Residential", "Gas- Commercial", "Elec- Commercial")) %>% 
-  pge_rc_bayzips <- mutate(pge_rc_bayzips,
-                            mon_yr == "MONTH" & "YEAR"
-    
-  )
-    mutate(
-      MONTH = MONTH %>% as.character()
-    ) %>% 
-    by_month <- group_by(pge_rc_bayzips, MONTH) 
+colnames(pge_elec_gas)
 
-summarize(
+
+
+pge_rc_bayzips <-
+  pge_elec_gas %>% 
+  filter(CUSTOMERCLASS %in% c("Gas- Residential", "Elec- Residential", "Gas- Commercial", "Elec- Commercial")) %>% 
+  mutate(
+    ZIPCODE = ZIPCODE %>% as.character()
+  ) %>% 
+  group_by(ZIPCODE, CUSTOMERCLASS, MONTH, YEAR) %>% 
+  summarize(
     TOTALKBTU = sum(TOTALKBTU, na.rm = T)
-  ) 
-  
-right_join(
+  ) %>% 
+  right_join(
     bay_zips %>% select(GEOID10),
-    by = c("MONTH" = "GEOID10")
+    by = c("ZIPCODE" = "GEOID10")
   ) %>% 
   st_as_sf() %>% 
   st_transform(4326)
-
-
-
+  
+class(pge_rc_bayzips$ZIPCODE)
 
   
+
+```
+#Creating New Date Column: 
+```{r}
+library(date)
+library(zoo)
+library(dplyr)
+
+pge_rc_bayzips$Date <- as.yearmon(paste(pge_rc_bayzips$YEAR, pge_rc_bayzips$MONTH), "%Y %m")
+
+    
+  
+```
+
+
+# Making a stacked bar graph: 
+```{r}
+library(tidyverse)
+library(plotly)
+pge_bay_chart <-
+  pge_rc_bayzips %>% 
+  ggplot() +
+  geom_bar(
+    aes(
+      x = Date %>% factor(),
+      y = TOTALKBTU,
+      fill = CUSTOMERCLASS
+    ),
+    stat = "identity",
+    position = "stack"
+  ) +
+  labs(
+    x = "Month",
+    y = "KBTU",
+    title = "9 Bay Area Counties Monthly Electric & Gas Usage, 2017-2020",
+    fill = "Energy Type"
+  )
+
+pge_bay_chart
+
+pge_bay_chart %>% 
+  ggplotly() %>% 
+  layout(
+    xaxis = list(fixedrange = T),
+    yaxis = list(fixedrange = T)
+  ) %>% 
+  config(displayModeBar = F)
 ```
 

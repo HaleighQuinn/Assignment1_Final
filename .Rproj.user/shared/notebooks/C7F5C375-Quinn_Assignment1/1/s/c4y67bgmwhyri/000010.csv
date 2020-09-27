@@ -1,0 +1,30 @@
+"0","library(date)"
+"0","library(zoo)"
+"2","
+Attaching package: ‘zoo’
+
+"
+"2","The following objects are masked from ‘package:base’:
+
+    as.Date, as.Date.numeric
+
+"
+"0","library(dplyr)"
+"2","
+Attaching package: ‘dplyr’
+
+"
+"2","The following objects are masked from ‘package:stats’:
+
+    filter, lag
+
+"
+"2","The following objects are masked from ‘package:base’:
+
+    intersect, setdiff, setequal, union
+
+"
+"0","pge_rc_bayzips$Date <- as.yearmon(paste(pge_rc_bayzips$YEAR, pge_rc_bayzips$MONTH), ""%Y %m"")"
+"0",""
+"0","    "
+"0","  "
