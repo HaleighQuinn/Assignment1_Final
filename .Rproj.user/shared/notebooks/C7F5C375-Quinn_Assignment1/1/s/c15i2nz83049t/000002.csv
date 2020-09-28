@@ -1,0 +1,25 @@
+"0","library(tidyverse)
+library(dplyr)
+library(sf)
+library(tigris)
+library(leaflet)
+
+pge_covid <-
+  pge_rc_bayzips %>% 
+  filter(CUSTOMERCLASS == ""Elec- Residential"", YEAR %in% 2019:2020, MONTH %in% 3:6) %>%
+  pivot_wider(
+    names_from = YEAR, 
+    values_from = TOTALKBTU,
+    values_fill = 0
+  ) %>% 
+  rename(
+    KBTU2019 = ""2019"",
+    KBTU2020 = ""2020""
+  ) %>%
+  na.omit(pge_covid) %>%  
+  mutate(
+    KBTU_change = ((KBTU2020 - KBTU2019)/(KBTU2019)) * 100
+  ) 
+"
+"2","Error: variable names are limited to 10000 bytes
+"

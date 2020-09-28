@@ -1,0 +1,47 @@
+"0","library(tidyverse)"
+"0","library(plotly)"
+"2","Registered S3 method overwritten by 'data.table':
+  method           from
+  print.data.table     
+"
+"2","
+Attaching package: ‘plotly’
+
+"
+"2","The following object is masked from ‘package:ggplot2’:
+
+    last_plot
+
+"
+"2","The following object is masked from ‘package:stats’:
+
+    filter
+
+"
+"2","The following object is masked from ‘package:graphics’:
+
+    layout
+
+"
+"0","pge_bay_chart <-"
+"0","  pge_bayzips_date %>% "
+"0","  ggplot() +"
+"0","  geom_bar("
+"0","    aes("
+"0","      x = DATE %>% factor(),"
+"0","      y = TOTALKBTU,"
+"0","      fill = CUSTOMERCLASS"
+"0","    ),"
+"0","    stat = ""identity"","
+"0","    position = ""stack"""
+"0","  ) +"
+"0","  labs("
+"0","    x = ""Month"","
+"0","    y = ""KBTU"","
+"0","    title = ""9 Bay Area Counties Monthly Electric & Gas Usage, 2017-2020"","
+"0","    fill = ""Energy Type"""
+"0","    "
+"0","  )"
+"0",""
+"0","pge_bay_chart +"
+"0","  theme(axis.text.x = element_text(angle=90, vjust=0.5, hjust=1)) "

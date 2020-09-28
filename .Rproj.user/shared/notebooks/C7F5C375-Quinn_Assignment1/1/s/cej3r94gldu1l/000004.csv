@@ -1,0 +1,7 @@
+"0","pge_rc_bayzips <-
+  pge_elec_gas %>% 
+  filter(CUSTOMERCLASS %in% c(""Gas- Residential"", ""Elec- Residential"", ""Gas- Commercial"", ""Elec- Commercial""))
+"
+"2","Error in pge_elec_gas %>% filter(CUSTOMERCLASS %in% c(""Gas- Residential"",  : 
+  could not find function ""%>%""
+"

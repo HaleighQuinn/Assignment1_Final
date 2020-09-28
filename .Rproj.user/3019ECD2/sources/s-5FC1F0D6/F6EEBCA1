@@ -1,0 +1,32 @@
+{
+    "id": "F6EEBCA1",
+    "path": null,
+    "project_path": null,
+    "type": "r_dataframe",
+    "hash": "0",
+    "contents": "",
+    "dirty": false,
+    "created": 1601263514226.0,
+    "source_on_save": false,
+    "relative_order": 5,
+    "properties": {
+        "expression": "pge_rc_bayzips",
+        "caption": "pge_rc_bayzips",
+        "totalObservations": 44668,
+        "displayedObservations": 44668,
+        "variables": 7,
+        "cacheKey": "B9B2B8C3",
+        "object": "pge_rc_bayzips",
+        "environment": "",
+        "contentUrl": "grid_resource/gridviewer.html?env=&obj=pge_rc_bayzips&cache_key=B9B2B8C3&max_cols=50",
+        "preview": 0
+    },
+    "folds": "",
+    "lastKnownWriteTime": 2370470467232,
+    "encoding": "",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1601263514226,
+    "read_only": false,
+    "read_only_alternatives": []
+}
