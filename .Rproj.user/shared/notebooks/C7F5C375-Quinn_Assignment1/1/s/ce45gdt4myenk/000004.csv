@@ -1,0 +1,35 @@
+"0","res_pal <- colorNumeric(
+  palette = ""Blues"",
+  domain = 
+    pge_covid$KBTU_change
+)
+
+leaflet() %>% 
+  addTiles() %>% 
+  addPolygons(
+    data = pge_covid,
+    fillColor = ~res_pal(KBTU_change),
+    color = ""white"",
+    opacity = 0.5,
+    fillOpacity = 0.5,
+    weight = 1,
+    label = ~paste0(
+      round(KBTU_change), 
+      ""% Change in Energy Consumption from March-June 2019 - 2020 by Zipcode "",
+      ZIPCODE
+    ),
+    highlightOptions = highlightOptions(
+      weight = 2,
+      opacity = 1
+    )
+  ) %>% 
+  addLegend(
+    data = pge_covid,
+    pal = res_pal,
+    values = ~KBTU_change,
+    title = ""Percentage Change in Residential Electric Energy Use<br>During COVID-19""
+  )
+"
+"2","Error in polygonData.default(data) : 
+  Don't know how to get path data from object of class grouped_df
+"

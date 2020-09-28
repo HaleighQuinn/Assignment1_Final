@@ -323,8 +323,6 @@ pge_covid <-
   )
 
 
-
-
 #Mapping: 
   res_pal <- colorNumeric(
   palette = "Blues",
