@@ -171,7 +171,8 @@ pge_rc_bayzips <-
   right_join(
     bay_zips %>% select(GEOID10),
     by = c("ZIPCODE" = "GEOID10")
-  ) 
+  ) %>% 
+  ungroup()
   
   
 class(pge_rc_bayzips$ZIPCODE)
@@ -241,6 +242,7 @@ pge_bayzips_date <- pge_rc_bayzips %>%
 ```{r}
 library(tidyverse)
 library(plotly)
+
 pge_bay_chart <-
   pge_bayzips_date %>% 
   ggplot() +
@@ -259,10 +261,10 @@ pge_bay_chart <-
     title = "9 Bay Area Counties Monthly Electric & Gas Usage, 2017-2020",
     fill = "Energy Type"
     
-  )
+  ) 
 
-pge_bay_chart +
-  theme(axis.text.x = element_text(angle=90, vjust=0.5, hjust=1)) 
+  pge_bay_chart +
+  scale_x_discrete(breaks = seq(0,42,2))
   
  
 pge_bay_chart %>% 
@@ -272,19 +274,22 @@ pge_bay_chart %>%
     yaxis = list(fixedrange = T)
   ) %>% 
   config(displayModeBar = F) 
+  
 
 ```
 
 
 
-# Creating a Map: 
+# Creating Covid Comparison Data: 
 ```{r}
 library(tidyverse)
 library(dplyr)
 library(sf)
 library(tigris)
 library(leaflet)
-#Good
+
+pge_rc_bayzips$Date <- NULL  
+
 
 pge_covid <-
   pge_rc_bayzips %>% 
@@ -300,30 +305,24 @@ pge_covid <-
   ) %>%
   mutate(
     KBTU_change = ((KBTU2020 - KBTU2019)/(KBTU2019)) * 100
-  ) 
+) %>% 
+  st_as_sf()
+
+
+```
+
+
+
+
+
+# Making the Covid Map:
+```{r}
+library(tidyverse)
+library(sf)
+library(tigris)
+library(leaflet)
+
   
-#Test
-
-pge_rc_bayzips$Date <- NULL
-
-pge_covid <-
-  pge_rc_bayzips %>% 
-  filter(CUSTOMERCLASS == "Elec- Residential", YEAR %in% 2019:2020, MONTH %in% 3:6) %>%
-  pivot_wider(
-    names_from = YEAR, 
-    values_from = TOTALKBTU,
-    values_fill = 0
-  ) %>% 
-  rename(
-    KBTU2019 = "2019",
-    KBTU2020 = "2020"
-  ) %>%
-  mutate(
-    KBTU_change = ((KBTU2020 - KBTU2019)/(KBTU2019)) * 100
-  )
-
-
-#Mapping: 
   res_pal <- colorNumeric(
   palette = "Blues",
   domain = 
@@ -341,7 +340,7 @@ leaflet() %>%
     weight = 1,
     label = ~paste0(
       round(KBTU_change), 
-      "% Change in Energy Consumption from March-June 2019 - 2020 by Zipcode ",
+      "KBTU Percentage Change in",
       ZIPCODE
     ),
     highlightOptions = highlightOptions(
@@ -356,9 +355,5 @@ leaflet() %>%
     title = "Percentage Change in Residential Electric Energy Use<br>During COVID-19"
   )
 
-
 ```
-
-
-
 
