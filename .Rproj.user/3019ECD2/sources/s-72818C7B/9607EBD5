@@ -1,0 +1,32 @@
+{
+    "id": "9607EBD5",
+    "path": null,
+    "project_path": null,
+    "type": "r_dataframe",
+    "hash": "0",
+    "contents": "",
+    "dirty": false,
+    "created": 1601309114240.0,
+    "source_on_save": false,
+    "relative_order": 4,
+    "properties": {
+        "expression": "pge_covid",
+        "caption": "pge_covid",
+        "totalObservations": 1134,
+        "displayedObservations": 1134,
+        "variables": 7,
+        "cacheKey": "1D263A5C",
+        "object": "pge_covid",
+        "environment": "",
+        "contentUrl": "grid_resource/gridviewer.html?env=&obj=pge_covid&cache_key=1D263A5C&max_cols=50",
+        "preview": 0
+    },
+    "folds": "",
+    "lastKnownWriteTime": 1601271336,
+    "encoding": "",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1601309114240,
+    "read_only": false,
+    "read_only_alternatives": []
+}

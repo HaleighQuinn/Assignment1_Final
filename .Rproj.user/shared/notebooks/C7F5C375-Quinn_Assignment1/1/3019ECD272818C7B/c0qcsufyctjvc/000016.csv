@@ -1,0 +1,32 @@
+"1","[1]"
+"1"," ""PGE_2019_Q3_ElectricUsageByZip.csv"""
+"1","
+"
+"2","Parsed with column specification:
+cols(
+  ZIPCODE = [32mcol_double()[39m,
+  MONTH = [32mcol_double()[39m,
+  YEAR = [32mcol_double()[39m,
+  CUSTOMERCLASS = [31mcol_character()[39m,
+  COMBINED = [31mcol_character()[39m,
+  TOTALCUSTOMERS = [32mcol_number()[39m,
+  TOTALKWH = [32mcol_number()[39m,
+  AVERAGEKWH = [32mcol_number()[39m
+)
+"
+"1","[1]"
+"1"," ""PGE_2019_Q3_GasUsageByZip.csv"""
+"1","
+"
+"2","Parsed with column specification:
+cols(
+  ZIPCODE = [32mcol_double()[39m,
+  MONTH = [32mcol_double()[39m,
+  YEAR = [32mcol_double()[39m,
+  CUSTOMERCLASS = [31mcol_character()[39m,
+  COMBINED = [31mcol_character()[39m,
+  TOTALCUSTOMERS = [32mcol_number()[39m,
+  TOTALTHM = [32mcol_number()[39m,
+  AVERAGETHM = [32mcol_number()[39m
+)
+"

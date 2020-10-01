@@ -1,0 +1,28 @@
+"0","pge_bay_chart <-
+  pge_bayzips_date %>% 
+  ggplot() +
+  geom_bar(
+    aes(
+      x = Date,
+      y = TOTALKBTU,
+      fill = CUSTOMERCLASS
+    ),
+    stat = ""identity"",
+    position = ""stack""
+  ) +
+  labs(
+    x = ""Month"",
+    y = ""KBTU"",
+    title = ""9 Bay Area Counties Monthly Electric & Gas Usage, 2017-2020"",
+    fill = ""Energy Type""
+  ) 
+
+pge_bay_chart %>% 
+  ggplotly() %>% 
+  layout(
+    xaxis = list(fixedrange = T),
+    yaxis = list(fixedrange = T)
+  ) %>% 
+  config(displayModeBar = F) 
+"
+"2","Removed 6 rows containing missing values (position_stack)."
