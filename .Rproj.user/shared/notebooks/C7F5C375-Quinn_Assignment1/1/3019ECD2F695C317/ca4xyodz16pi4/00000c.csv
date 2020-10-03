@@ -1,0 +1,5 @@
+"0","group_by(pge_rc_bayzips, ZIPCODE)
+"
+"2","Error: Must group by variables found in `.data`.
+* Column `ZIPCODE` is not found.
+"

@@ -4,33 +4,7 @@ author: "Haleigh Quinn"
 date: "`r format(Sys.Date(), '%B %d, %Y')`"
 output: html_document
 ---
-
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
-
-## R Markdown
-
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
-
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
-
-```{r cars}
-summary(cars)
-```
-
-## Including Plots
-
-You can also embed plots, for example:
-
-```{r pressure, echo=FALSE}
-plot(pressure)
-```
-
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
-
-
-# Reading & Filtering the Data
+## Reading & Saving the Data 
 ```{r}
 library(tidyverse)
 
@@ -80,24 +54,11 @@ for (quarter in quarters){
   }
 }
 
-pge_res_com <- 
-  filter(
-    pge_elec_gas, 
-    CUSTOMERCLASS %in%
-      c(
-        "Elec- Residential ", 
-        "Gas- Residential",
-        "Elec- Commercial",
-        "Gas- Commercial"
-      )
-  )
-
-
 
 ```
 
 
-# Filtering only Zip Codes in the Bay Area : 
+## Filtering to Zip Codes in the Bay Area 
 ```{r}
 library(tidyverse)
 library(sf)
@@ -157,28 +118,29 @@ bay_zips <-
 colnames(pge_elec_gas)
 
 
-
 pge_rc_bayzips <-
   pge_elec_gas %>% 
   filter(CUSTOMERCLASS %in% c("Gas- Residential", "Elec- Residential", "Gas- Commercial", "Elec- Commercial")) %>% 
   mutate(
     ZIPCODE = ZIPCODE %>% as.character()
   ) %>% 
-  group_by(ZIPCODE, CUSTOMERCLASS, MONTH, YEAR) %>% 
-  summarize(
-    TOTALKBTU = sum(TOTALKBTU, na.rm = T)
-  ) %>% 
+  group_by(ZIPCODE, CUSTOMERCLASS) %>%
   right_join(
     bay_zips %>% select(GEOID10),
     by = c("ZIPCODE" = "GEOID10")
-  ) %>% 
-  ungroup()
-  
+  ) %>%  
+  ungroup() %>% 
+  group_by(CUSTOMERCLASS,MONTH,YEAR) %>% 
+  summarize(
+    TOTALKBTU = sum(TOTALKBTU, na.rm = T)
+  ) 
+
+
   
 class(pge_rc_bayzips$ZIPCODE)
 
 ```
-# Creating New Date Column: 
+## Creating New Date Column  
 ```{r}
 library(date)
 library(zoo)
@@ -238,17 +200,22 @@ pge_bayzips_date <- pge_rc_bayzips %>%
 ```
 
 
-# Making a stacked bar graph: 
+## Histogram - 9 Bay Area Counties Monthly Electric & Gas Usage, 2017-2020: 
 ```{r}
 library(tidyverse)
 library(plotly)
+library(zoo)
 
+pge_bayzips_date <- transform(pge_bayzips_date, Date = as.Date(Date, frac = 1))
+ 
+class(pge_bayzips_date$Date)
+ 
 pge_bay_chart <-
   pge_bayzips_date %>% 
   ggplot() +
   geom_bar(
     aes(
-      x = DATE %>% factor(),
+      x = Date,
       y = TOTALKBTU,
       fill = CUSTOMERCLASS
     ),
@@ -260,13 +227,8 @@ pge_bay_chart <-
     y = "KBTU",
     title = "9 Bay Area Counties Monthly Electric & Gas Usage, 2017-2020",
     fill = "Energy Type"
-    
   ) 
 
-  pge_bay_chart +
-  scale_x_discrete(breaks = seq(0,42,2))
-  
- 
 pge_bay_chart %>% 
   ggplotly() %>% 
   layout(
@@ -277,10 +239,16 @@ pge_bay_chart %>%
   
 
 ```
+> When comparing March of 2019 with March of 2020, there was a notable increase in Residential Electricity usage, which can likely be attributed an influx of people quarantining due to COVID-19. This increase in Residential Electricity usage continued from March through June. 
+>
+> Interestingly, Residential Gas Usage decreased slightly when comparing March 2019 to March 2020. However, Residential Gas Usage increased significantly in April 2020 as compared to April 2019, which could be attributed, again, to the influx of people spending more time at home. 
+>
+> As expected, Commercial Electricity usage was lesser for the first six months of 2020 overall than it was for the first six months of 2019. This is an unsurprising finding, since Bay Area "stay-at-home" orders would likely decrease the need for Commercial Electricity. Conversely, Commercial Gas usage experienced a slight increase during March 2020 and April 2020 compared to the same months in 2019, but then experienced a stark decrease moving into the summer months
 
 
 
-# Creating Covid Comparison Data: 
+
+## Creating Covid Comparison Data: 
 ```{r}
 library(tidyverse)
 library(dplyr)
@@ -315,7 +283,7 @@ pge_covid <-
 
 
 
-# Making the Covid Map:
+## Map - Percentage Change in Residential Electricity Use During COVID-19 :
 ```{r}
 library(tidyverse)
 library(sf)
@@ -356,4 +324,5 @@ leaflet() %>%
   )
 
 ```
+
 
