@@ -1,0 +1,32 @@
+{
+    "id": "F55B9879",
+    "path": null,
+    "project_path": null,
+    "type": "r_dataframe",
+    "hash": "0",
+    "contents": "",
+    "dirty": false,
+    "created": 1601691447651.0,
+    "source_on_save": false,
+    "relative_order": 4,
+    "properties": {
+        "expression": "pge_map_zips",
+        "caption": "pge_map_zips",
+        "totalObservations": "45731",
+        "displayedObservations": "45731",
+        "variables": "8",
+        "cacheKey": "CD1C5281",
+        "object": "pge_map_zips",
+        "environment": "",
+        "contentUrl": "grid_resource/gridviewer.html?env=&obj=pge_map_zips&cache_key=CD1C5281&max_cols=50",
+        "preview": "0"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 1601690006,
+    "encoding": "",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1601691447651,
+    "read_only": false,
+    "read_only_alternatives": []
+}

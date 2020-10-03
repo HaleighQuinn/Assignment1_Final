@@ -1,0 +1,79 @@
+"0","library(tidyverse)"
+"0",""
+"0","years <- 2017:2020"
+"0","quarters <- 1:4"
+"0","types <- c(""Electric"", ""Gas"")"
+"0","months <- 1:42"
+"0","pge_elec_gas <- NULL"
+"0",""
+"0","for (quarter in quarters){"
+"0","  for (year in years){"
+"0","    for (type in types){"
+"0","       if ((quarter %in% 3:4) & (year %in% 2020)){"
+"0","        next "
+"0","       }"
+"0","      "
+"0","      filename <- "
+"0","        paste0("
+"0","          ""PGE_"","
+"0","          year, "
+"0","          ""_Q"", "
+"0","          quarter,"
+"0","          ""_"","
+"0","          type,"
+"0","          ""UsageByZip.csv"""
+"0","        )"
+"0","     "
+"0","      print(filename)"
+"0","      "
+"0","      "
+"0","      temp <- read_csv(filename)"
+"0","      "
+"0","      if(type %in% ""Gas""){"
+"0","        print(temp)"
+"0","        temp <- temp %>% "
+"0","          mutate(TOTALKBTU = 100 * TOTALTHM) %>% "
+"0","          select(-TOTALTHM, -AVERAGETHM)"
+"0","      } else {"
+"0","        temp <- temp %>% "
+"0","        mutate(TOTALKBTU = 3.412 * TOTALKWH) %>% "
+"0","          select(-TOTALKWH, -AVERAGEKWH)"
+"0","      }"
+"0","      "
+"0","      pge_elec_gas <- rbind(pge_elec_gas, temp)"
+"0",""
+"0","    }"
+"0","  }"
+"0","}"
+"1","[1]"
+"1"," ""PGE_2017_Q1_ElectricUsageByZip.csv"""
+"1","
+"
+"2","Parsed with column specification:
+cols(
+  ZIPCODE = [32mcol_double()[39m,
+  MONTH = [32mcol_double()[39m,
+  YEAR = [32mcol_double()[39m,
+  CUSTOMERCLASS = [31mcol_character()[39m,
+  COMBINED = [31mcol_character()[39m,
+  TOTALCUSTOMERS = [32mcol_number()[39m,
+  TOTALKWH = [32mcol_number()[39m,
+  AVERAGEKWH = [32mcol_number()[39m
+)
+"
+"1","[1]"
+"1"," ""PGE_2017_Q1_GasUsageByZip.csv"""
+"1","
+"
+"2","Parsed with column specification:
+cols(
+  ZIPCODE = [32mcol_double()[39m,
+  MONTH = [32mcol_double()[39m,
+  YEAR = [32mcol_double()[39m,
+  CUSTOMERCLASS = [31mcol_character()[39m,
+  COMBINED = [31mcol_character()[39m,
+  TOTALCUSTOMERS = [32mcol_number()[39m,
+  TOTALTHM = [32mcol_number()[39m,
+  AVERAGETHM = [32mcol_number()[39m
+)
+"

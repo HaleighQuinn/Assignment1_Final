@@ -1,0 +1,14 @@
+"0","library(tidyverse)"
+"0","library(sf)"
+"0","library(tigris)"
+"0","library(leaflet)"
+"0",""
+"0",""
+"0","  res_pal <- colorNumeric("
+"0","  palette = ""Blues"","
+"0","  domain = "
+"0","    pge_covid$KBTU_change"
+"0",")"
+"2","Error in colorNumeric(palette = ""Blues"", domain = pge_covid$KBTU_change) : 
+  Wasn't able to determine range of domain
+"

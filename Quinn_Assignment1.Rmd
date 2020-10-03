@@ -146,6 +146,7 @@ library(date)
 library(zoo)
 library(dplyr)
 
+
 pge_rc_bayzips$Date <- as.yearmon(paste(pge_rc_bayzips$YEAR, pge_rc_bayzips$MONTH), "%Y %m")
 
 pge_bayzips_date <- pge_rc_bayzips %>% 
@@ -200,11 +201,13 @@ pge_bayzips_date <- pge_rc_bayzips %>%
 ```
 
 
-## Histogram - 9 Bay Area Counties Monthly Electric & Gas Usage, 2017-2020: 
+## Histogram - 9 Bay Area Counties Monthly Electric & Gas Usage, 2017-2020 
 ```{r}
 library(tidyverse)
 library(plotly)
 library(zoo)
+
+
 
 pge_bayzips_date <- transform(pge_bayzips_date, Date = as.Date(Date, frac = 1))
  
@@ -239,11 +242,11 @@ pge_bay_chart %>%
   
 
 ```
-> When comparing March of 2019 with March of 2020, there was a notable increase in Residential Electricity usage, which can likely be attributed an influx of people quarantining due to COVID-19. This increase in Residential Electricity usage continued from March through June. 
->
-> Interestingly, Residential Gas Usage decreased slightly when comparing March 2019 to March 2020. However, Residential Gas Usage increased significantly in April 2020 as compared to April 2019, which could be attributed, again, to the influx of people spending more time at home. 
->
-> As expected, Commercial Electricity usage was lesser for the first six months of 2020 overall than it was for the first six months of 2019. This is an unsurprising finding, since Bay Area "stay-at-home" orders would likely decrease the need for Commercial Electricity. Conversely, Commercial Gas usage experienced a slight increase during March 2020 and April 2020 compared to the same months in 2019, but then experienced a stark decrease moving into the summer months
+When comparing March of 2019 with March of 2020, there was a notable increase in Residential Electricity usage, which can likely be attributed an influx of people quarantining due to COVID-19. This increase in Residential Electricity usage continued from March through June. 
+
+Interestingly, Residential Gas Usage decreased slightly when comparing March 2019 to March 2020. However, Residential Gas Usage increased significantly in April 2020 as compared to April 2019, which could be attributed, again, to the influx of people spending more time at home. 
+
+As expected, Commercial Electricity usage was lesser for the first six months of 2020 overall than it was for the first six months of 2019. This is an unsurprising finding, since Bay Area "stay-at-home" orders would likely decrease the need for Commercial Electricity. Conversely, Commercial Gas usage experienced a slight increase during March 2020 and April 2020 compared to the same months in 2019, but then experienced a stark decrease moving into the summer months
 
 
 
@@ -256,11 +259,29 @@ library(sf)
 library(tigris)
 library(leaflet)
 
-pge_rc_bayzips$Date <- NULL  
+pge_map_zips <-
+  pge_elec_gas %>% 
+  filter(CUSTOMERCLASS %in% c("Gas- Residential", "Elec- Residential", "Gas- Commercial", "Elec- Commercial")) %>% 
+  mutate(
+    ZIPCODE = ZIPCODE %>% as.character()
+  ) %>% 
+  group_by(ZIPCODE, YEAR, CUSTOMERCLASS, MONTH) %>%
+  summarize(
+    TOTALKBTU = sum(TOTALKBTU, na.rm = T)
+  ) %>% 
+  right_join(
+    bay_zips %>% select(GEOID10),
+    by = c("ZIPCODE" = "GEOID10")
+  )
+
+library(zoo)
+pge_map_zips$Date <- as.yearmon(paste(pge_map_zips$YEAR, pge_map_zips$MONTH), "%Y %m")
+
+pge_map_zips$Date <- NULL  
 
 
 pge_covid <-
-  pge_rc_bayzips %>% 
+  pge_map_zips %>% 
   filter(CUSTOMERCLASS == "Elec- Residential", YEAR %in% 2019:2020, MONTH %in% 3:6) %>%
   pivot_wider(
     names_from = YEAR, 
@@ -273,8 +294,8 @@ pge_covid <-
   ) %>%
   mutate(
     KBTU_change = ((KBTU2020 - KBTU2019)/(KBTU2019)) * 100
-) %>% 
-  st_as_sf()
+ ) %>% 
+ st_as_sf()
 
 
 ```
@@ -283,14 +304,14 @@ pge_covid <-
 
 
 
-## Map - Percentage Change in Residential Electricity Use During COVID-19 :
+## Map - Percentage Change in Residential Electricity Use During COVID-19
 ```{r}
 library(tidyverse)
 library(sf)
 library(tigris)
 library(leaflet)
 
-  
+
   res_pal <- colorNumeric(
   palette = "Blues",
   domain = 
@@ -324,5 +345,5 @@ leaflet() %>%
   )
 
 ```
-
+Aside from zipcodes belonging to Sonoma County, all of the zipcodes in the Bay Area experienced a positive percentage change in Residential Electricity Use during Covid-19. San Mateo, Santa Clara, Palo Alto, and Loma Mar did not experience a percentage change in Residential Electricity Use at all, though Stanford experiences a 8% change in Residential Electricity Use during COVID-19. A key assumption that is relevant in this analysis is the fact that these changes in Electricity occured during a state mandated lock-down that necessitated people remain home. 
 

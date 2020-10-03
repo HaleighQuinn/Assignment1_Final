@@ -1,0 +1,17 @@
+"0","pge_map_zips <-
+  pge_elec_gas %>% 
+  filter(CUSTOMERCLASS %in% c(""Gas- Residential"", ""Elec- Residential"", ""Gas- Commercial"", ""Elec- Commercial"")) %>% 
+  mutate(
+    ZIPCODE = ZIPCODE %>% as.character()
+  ) %>% 
+  group_by(ZIPCODE, YEAR, CUSTOMERCLASS, MONTH) %>%
+  summarize(
+    TOTALKBTU = sum(TOTALKBTU, na.rm = T)
+  ) %>% 
+  right_join(
+    bay_zips %>% select(GEOID10),
+    by = c(""ZIPCODE"" = ""GEOID10"")
+  )
+"
+"2","`summarise()` regrouping output by 'ZIPCODE', 'YEAR', 'CUSTOMERCLASS' (override with `.groups` argument)
+"
